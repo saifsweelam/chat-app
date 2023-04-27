@@ -1,0 +1,20 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "NodeJS Chat Web Application",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saifsweelam/chat-app.git"
+  },
+  "author": "Seif El-Din Sweilam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saifsweelam/chat-app/issues"
+  },
+  "homepage": "https://github.com/saifsweelam/chat-app#readme"
+}
