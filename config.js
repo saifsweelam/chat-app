@@ -30,7 +30,7 @@ module.exports = new function() {
     }
 
     this.db = {
-        uri: process.env.SHOP_DB_URI || 'mongodb://127.0.0.1:27017/chat-app'
+        uri: process.env.CHATAPP_DB_URI || 'mongodb://127.0.0.1:27017/chat-app'
     }
 
     this.session = {
