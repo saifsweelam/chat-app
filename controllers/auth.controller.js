@@ -15,7 +15,7 @@ exports.postLogin = (req, res, next) => {
             return usersModel.validatePassword(user, req.body.password);
         })
         .then(user => {
-            req.session.userId = user._id;
+            req.session.user = user;
             res.redirect('/');
         })
         .catch((err) => {
