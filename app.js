@@ -4,7 +4,11 @@ const nunjucks = require('nunjucks');
 const session = require('express-session');
 const flash = require('connect-flash');
 
+// Configuration
 const config = require('./config');
+
+// Routers
+const authRouter = require('./routes/auth.route');
 
 // Initialize App and Web Server
 const app = express();
@@ -40,6 +44,9 @@ app.use((req, res, next) => {
     };
     next();
 });
+
+// Use Routers
+app.use('/', authRouter);
 
 // Run Server
 server.listen(

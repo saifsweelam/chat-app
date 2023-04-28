@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/saifsweelam/chat-app#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "bootstrap": "^5.2.3",
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
