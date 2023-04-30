@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %} {{ user.username }} {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col col-12 col-md-6 p-4">
+            <img src="{{ user.avatar }}" alt="{{ user.username }}'s avatar" class="w-100">
+        </div>
+        <div class="col col-12 col-md-6 d-flex flex-column align-items-center p-4">
+            <h2>{{ user.username }}</h2>
+            <div class="my-3">
+                {% if user._id|string == session.userId|string %}
+                Just You
+                {% elif session.userId in user.friends %}
+                <a href="#" class="btn btn-success">Chat</a>
+                <a href="#" class="btn btn-danger">Unfriend</a>
+                {% elif session.userId in user.sentRequests %}
+                <a href="#" class="btn btn-primary">Confirm</a>
+                <a href="#" class="btn btn-danger">Decline</a>
+                {% elif session.userId in user.receivedRequests %}
+                <a href="#" class="btn btn-danger">Cancel Request</a>
+                {% else %}
+                <a href="#" class="btn btn-primary">Add Friend</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

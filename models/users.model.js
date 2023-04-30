@@ -3,6 +3,10 @@ const connection = require('./connection');
 
 const bcrypt = require('bcrypt');
 
+exports.getUserById = (userId) => {
+    return connection(() => User.findById(userId));
+}
+
 exports.getUserByEmail = (email) => {
     return connection(() => User.findOne({ email: email }));
 }

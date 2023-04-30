@@ -7,7 +7,25 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String,
         default: '/avatars/default.png'
-    }
+    },
+    sentRequests: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    receivedRequests: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+    friends: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 });
 
 module.exports = mongoose.model('User', userSchema);

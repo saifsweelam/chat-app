@@ -9,6 +9,7 @@ const config = require('./config');
 
 // Routers
 const authRouter = require('./routes/auth.route');
+const profileRouter = require('./routes/profile.route');
 
 // Initialize App and Web Server
 const app = express();
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 
 // Use Routers
 app.use('/', authRouter);
+app.use('/profile', profileRouter);
 
 // Run Server
 server.listen(
