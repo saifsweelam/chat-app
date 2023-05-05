@@ -8,6 +8,7 @@ const flash = require('connect-flash');
 const config = require('./config');
 
 // Routers
+const indexRouter = require('./routes/index.route');
 const authRouter = require('./routes/auth.route');
 const profileRouter = require('./routes/profile.route');
 const friendsRouter = require('./routes/friends.route');
@@ -49,6 +50,7 @@ app.use((req, res, next) => {
 });
 
 // Use Routers
+app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/profile', profileRouter);
 app.use('/friends', friendsRouter);

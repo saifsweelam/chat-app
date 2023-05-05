@@ -32,6 +32,11 @@ exports.validatePassword = (user, password) => {
         })
 }
 
+exports.getReceivedRequestsByUserId = (userId) => {
+    return connection(() => User.findById(userId, { receivedRequests: true }).populate('receivedRequests'))
+    .then(user => user.receivedRequests);
+}
+
 exports.createFriendRequest = (senderId, receiverId) => {
     return connection(() =>
         User

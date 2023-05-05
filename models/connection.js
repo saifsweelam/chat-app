@@ -2,17 +2,14 @@ const mongoose = require('mongoose');
 
 const config = require('../config');
 
-module.exports = (action) => {
-    return new Promise((resolve, reject) => {
-        mongoose.connect(config.db.uri)
-        .then(() => action())
-        .then(result => {
-            mongoose.disconnect();
-            resolve(result);
-        })
-        .catch(err => {
-            mongoose.disconnect();
-            reject(err);
-        });
-    })
+module.exports = async (action) => {
+    try {
+        await mongoose.connect(config.db.uri);
+        let result = await action();
+        await mongoose.disconnect();
+        return result;
+    } catch (e) {
+        await mongoose.disconnect();
+        throw new Error(e);
+    }
 }
