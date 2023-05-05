@@ -7,6 +7,9 @@ exports.getProfile = (req, res, next) => {
     usersModel
         .getUserById(req.params.userId)
         .then((user) => {
+            user.friends = user.friends.map((userId) => String(userId));
+            user.sentRequests = user.sentRequests.map((userId) => String(userId));
+            user.receivedRequests = user.receivedRequests.map((userId) => String(userId));
             res.render('profile/profile', { user: user });
         })
 }

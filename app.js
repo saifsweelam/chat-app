@@ -10,6 +10,7 @@ const config = require('./config');
 // Routers
 const authRouter = require('./routes/auth.route');
 const profileRouter = require('./routes/profile.route');
+const friendsRouter = require('./routes/friends.route');
 
 // Initialize App and Web Server
 const app = express();
@@ -18,7 +19,8 @@ const server = http.createServer(app);
 // Template Engine
 nunjucks.configure(config.views.dir, {
     express: app,
-    autoescape: true
+    autoescape: true,
+    noCache: true
 });
 app.set('views', config.views.dir);
 app.set('view engine', config.views.engine);
@@ -49,6 +51,7 @@ app.use((req, res, next) => {
 // Use Routers
 app.use('/', authRouter);
 app.use('/profile', profileRouter);
+app.use('/friends', friendsRouter);
 
 // Run Server
 server.listen(
