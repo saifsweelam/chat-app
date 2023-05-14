@@ -1,11 +1,13 @@
-{% for error in flashed.errors %}
-    <div class="alert alert-danger">{{ error }}</div>
-{% endfor %}
+<div id="alerts" class="my-3">
+    {% for error in flashed.errors %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endfor %}
 
-{% for warning in flashed.warnings %}
-    <div class="alert alert-warning">{{ warning }}</div>
-{% endfor %}
+    {% for warning in flashed.warnings %}
+        <div class="alert alert-warning">{{ warning }}</div>
+    {% endfor %}
 
-{% for success in flashed.successes %}
-    <div class="alert alert-success">{{ success }}</div>
-{% endfor %}
+    {% for success in flashed.successes %}
+        <div class="alert alert-success">{{ success }}</div>
+    {% endfor %}
+</div>

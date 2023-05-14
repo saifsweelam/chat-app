@@ -3,6 +3,7 @@ const express = require('express');
 const nunjucks = require('nunjucks');
 const session = require('express-session');
 const flash = require('connect-flash');
+const { Server } = require('socket.io');
 
 // Configuration
 const config = require('./config');
@@ -16,6 +17,10 @@ const friendsRouter = require('./routes/friends.route');
 // Initialize App and Web Server
 const app = express();
 const server = http.createServer(app);
+const io = new Server(server);
+
+// Track Online Users
+const onlineUsers = {};
 
 // Template Engine
 nunjucks.configure(config.views.dir, {
@@ -32,10 +37,24 @@ app.use(express.static(config.static.dir));
 // Handle Form Body
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session(config.session));
+// Session
+const sessionMiddleware = session(config.session);
+app.use(sessionMiddleware);
 app.use(({ session }, res, next) => {
     res.locals.session = session; // Make session accessible in templates
     next();
+});
+io.engine.use(sessionMiddleware);
+io.use((socket, next) => {
+    let session = socket.request.session;
+    if (session && session.user) {
+        let userId = session.user._id.toString();
+        onlineUsers[userId] = true;
+        socket.join(userId);
+        next();
+    } else {
+        next(new Error("Unauthorized"));
+    }
 })
 
 // Flash Messages
@@ -54,6 +73,9 @@ app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/profile', profileRouter);
 app.use('/friends', friendsRouter);
+
+// Socket Controllers
+require('./sockets/friends.socket')(io);
 
 // Run Server
 server.listen(

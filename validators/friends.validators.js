@@ -7,7 +7,7 @@ module.exports = [
         .isMongoId().withMessage('Invalid User ID')
         .bail()
         .custom((value, {req}) => {
-            if (value === String(req.session.userId)) throw new Error('You can\'t perform this operation on yourself')
+            if (value === String(req.session.user._id)) throw new Error('You can\'t perform this operation on yourself')
             return true;
         })
 ];

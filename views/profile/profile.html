@@ -14,23 +14,29 @@
             <h2>{{ user.username }}</h2>
             <div class="my-3">
                 <form method="post">
-                    <input type="hidden" name="userId" value="{{ user._id }}">
-                    {% if user._id|string == session.userId|string %}
-                    Just You
-                    {% elif session.userId|string in user.friends %}
-                    <a href="#" class="btn btn-success">Chat</a>
-                    <button type="submit" formaction="/friends/unfriend" class="btn btn-danger">Unfriend</button>
-                    {% elif session.userId|string in user.sentRequests %}
-                    <button type="submit" formaction="/friends/accept" class="btn btn-primary">Accept</button>
-                    <button type="submit" formaction="/friends/decline" class="btn btn-danger">Decline</button>
-                    {% elif session.userId|string in user.receivedRequests %}
-                    <button type="submit" formaction="/friends/cancel" class="btn btn-danger">Cancel Request</button>
-                    {% else %}
-                    <button type="submit" formaction="/friends/add" class="btn btn-primary">Add Friend</button>
-                    {% endif %}
+                    <input type="hidden" name="userId" id="userIdInput" value="{{ user._id }}">
+                    <div id="options">
+                        {% if user._id|string == session.user._id|string %}
+                        Just You
+                        {% elif session.user._id|string in user.friends %}
+                        <a href="#" class="btn btn-success">Chat</a>
+                        <button type="submit" formaction="/friends/unfriend" class="btn btn-danger">Unfriend</button>
+                        {% elif session.user._id|string in user.sentRequests %}
+                        <button type="submit" formaction="/friends/accept" class="btn btn-primary">Accept</button>
+                        <button type="submit" formaction="/friends/decline" class="btn btn-danger">Decline</button>
+                        {% elif session.user._id|string in user.receivedRequests %}
+                        <button type="button" onclick="cancelFriendRequest();" class="btn btn-danger">Cancel Request</button>
+                        {% else %}
+                        <button type="button" onclick="addFriend();" class="btn btn-primary">Add Friend</button>
+                        {% endif %}
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/socket/profile.js"></script>
 {% endblock %}

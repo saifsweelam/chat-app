@@ -3,9 +3,9 @@ const router = require('express').Router();
 const usersModel = require('../models/users.model');
 
 router.use((req, res, next) => {
-    if (req.session.userId) {
+    if (req.session.user) {
         usersModel
-            .getReceivedRequestsByUserId(req.session.userId)
+            .getReceivedRequestsByUserId(req.session.user._id)
             .then(requests => {
                 res.locals.receivedRequests = requests;
                 next();
