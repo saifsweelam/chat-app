@@ -31,6 +31,13 @@ exports.getReceivedRequestsByUserId = (userId) => {
     });
 }
 
+exports.getFriendsByUserId = (userId) => {
+    return connection(async () => {
+        let user = await User.findById(userId, { friends: true }).populate('friends');
+        return user.friends;
+    });
+}
+
 exports.createFriendRequest = (senderId, receiverId) => {
     return connection(async () => {
         await User.updateOne({ _id: senderId }, { $push: { sentRequests: receiverId } });

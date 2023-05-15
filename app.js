@@ -48,9 +48,6 @@ io.engine.use(sessionMiddleware);
 io.use((socket, next) => {
     let session = socket.request.session;
     if (session && session.user) {
-        let userId = session.user._id.toString();
-        onlineUsers[userId] = true;
-        socket.join(userId);
         next();
     } else {
         next(new Error("Unauthorized"));
@@ -75,6 +72,7 @@ app.use('/profile', profileRouter);
 app.use('/friends', friendsRouter);
 
 // Socket Controllers
+require('./sockets/online.socket')(io);
 require('./sockets/friends.socket')(io);
 
 // Run Server

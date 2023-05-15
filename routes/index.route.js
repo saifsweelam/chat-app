@@ -1,6 +1,9 @@
 const router = require('express').Router();
 
 const usersModel = require('../models/users.model');
+const authorization = require('../authorization');
+
+const indexCtrl = require('../controllers/index.controller');
 
 router.use((req, res, next) => {
     if (req.session.user) {
@@ -14,5 +17,7 @@ router.use((req, res, next) => {
         next()
     }
 })
+
+router.get('/', authorization.requiresAuth, indexCtrl.getHome);
 
 module.exports = router;
