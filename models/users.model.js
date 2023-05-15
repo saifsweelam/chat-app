@@ -33,7 +33,7 @@ exports.getReceivedRequestsByUserId = (userId) => {
 
 exports.getFriendsByUserId = (userId) => {
     return connection(async () => {
-        let user = await User.findById(userId, { friends: true }).populate('friends');
+        let user = await User.findById(userId, { friends: true }).populate('friends.user');
         return user.friends;
     });
 }
@@ -52,16 +52,16 @@ exports.deleteFriendRequest = (senderId, receiverId) => {
     })
 }
 
-exports.createFriendship = (user1, user2) => {
+exports.createFriendship = (user1, user2, chatId) => {
     return connection(async () => {
-        await User.updateOne({ _id: user1 }, { $push: { friends: user2 } });
-        return await User.updateOne({ _id: user2 }, { $push: { friends: user1 } });
+        await User.updateOne({ _id: user1 }, { $push: { friends: { chat: chatId, user: user2 } } });
+        return await User.updateOne({ _id: user2 }, { $push: { friends: { chat: chatId, user: user1 } } });
     })
 }
 
 exports.deleteFriendship = (user1, user2) => {
     return connection(async () => {
-        await User.updateOne({ _id: user1 }, { $pull: { friends: user2 } });
-        return await User.updateOne({ _id: user2 }, { $pull: { friends: user1 } });
+        await User.updateOne({ _id: user1 }, { $pull: { friends: { user: user2 } } });
+        return await User.updateOne({ _id: user2 }, { $pull: { friends: { user: user1 } } });
     })
 }

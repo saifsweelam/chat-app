@@ -5,7 +5,7 @@ const usersModel = require('../models/users.model');
 exports.getHome = async (req, res, next) => {
     try {
         let friends = await usersModel.getFriendsByUserId(req.session.user._id);
-        friends = friends.filter(friend => onlineUsers[String(friend._id)]);
+        friends = friends.filter(friend => onlineUsers[String(friend.user._id)]);
         res.render('home/index', { friends });
     } catch (err) {
         req.flash('error', err.toString());

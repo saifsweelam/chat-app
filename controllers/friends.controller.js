@@ -1,4 +1,5 @@
 const usersModel = require('../models/users.model');
+const chatsModel = require('../models/chats.model');
 
 
 /** @type {import("express").RequestHandler} */
@@ -18,7 +19,8 @@ exports.addFriend = async (req, res, next) => {
 exports.acceptFriendRequest = async (req, res, next) => {
     try {
         await usersModel.deleteFriendRequest(req.body.userId, req.session.user._id);
-        await usersModel.createFriendship(req.body.userId, req.session.user._id);
+        let chat = await chatsModel.createChat([req.body.userId, req.session.user._id]);
+        await usersModel.createFriendship(req.body.userId, req.session.user._id, chat._id);
         req.flash("success", "You are now friends");
         res.redirect('/profile/' + req.body.userId);
     } catch (err) {

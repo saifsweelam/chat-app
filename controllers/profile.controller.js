@@ -8,7 +8,7 @@ exports.getProfile = async (req, res, next) => {
 
         let user = await usersModel.getUserById(req.params.userId);
 
-        user.friends = user.friends.map((userId) => String(userId));
+        user.friendIds = user.friends.map((friend) => String(friend.user));
         user.sentRequests = user.sentRequests.map((userId) => String(userId));
         user.receivedRequests = user.receivedRequests.map((userId) => String(userId));
 
