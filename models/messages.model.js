@@ -8,5 +8,8 @@ exports.createMessage = (content, senderId, chatId) => {
         chat: chatId,
         sentAt: Date.now()
     })
-    return connection(() => message.save());
+    return connection(async () => {
+        message = await message.save();
+        return await message.populate('sender');
+    });
 }

@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+
+{% block title %}Chat with {{ chat.user.username }}{% endblock %}
+
+{% block content %}
+<section style="background-color: #eee;">
+    <div class="container py-5">
+
+        <div class="row">
+
+            <div class="col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 px-5">
+
+                <h5 class="font-weight-bold mb-3 text-center text-lg-start">Chat</h5>
+
+                <div class="card">
+                    <img src="{{ chat.user.avatar }}" class="card-img-top" alt="{{ chat.user.username }}'s avatar">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ chat.user.username }}</h5>
+                        <a href="/profile/{{ chat.user._id }}" class="btn btn-primary">View Profile</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-6 col-lg-7 col-xl-8">
+
+                <ul class="list-unstyled">
+                    {% for message in chat.messages %}
+                    {% if message.sender._id|string != session.user._id|string %}
+                    <li class="d-flex justify-content-between mb-4">
+                        <img src="{{ message.sender.avatar }}" alt="{{ message.sender.username }}'s avatar"
+                            class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between p-3">
+                                <p class="fw-bold mb-0">{{ message.sender.username }}</p>
+                                <p class="text-muted small mb-0"><i class="far fa-clock"></i> {{ message.sentAt }}</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0">{{ message.content }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="d-flex justify-content-between mb-4">
+                        <div class="card w-100">
+                            <div class="card-header d-flex justify-content-between p-3">
+                                <p class="fw-bold mb-0">{{ message.sender.username }}</p>
+                                <p class="text-muted small mb-0"><i class="far fa-clock"></i> {{ message.sentAt }}</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0">{{ message.content }}</p>
+                            </div>
+                        </div>
+                        <img src="{{ message.sender.avatar }}" alt="{{ message.sender.username }}'s avatar"
+                            class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                    <li id="messageFieldContainer" class="bg-white mb-3">
+                        <div class="form-outline">
+                            <input type="hidden" id="senderId" value="{{ session.user._id }}">
+                            <textarea title="Message" placeholder="Message" class="form-control" id="messageField" rows="4"></textarea>
+                        </div>
+                    </li>
+                    <button type="button" onclick="sendMessage();" class="btn btn-info btn-rounded float-end">Send</button>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/js/socket/chat.js"></script>
+{% endblock %}

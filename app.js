@@ -13,6 +13,7 @@ const indexRouter = require('./routes/index.route');
 const authRouter = require('./routes/auth.route');
 const profileRouter = require('./routes/profile.route');
 const friendsRouter = require('./routes/friends.route');
+const chatRouter = require('./routes/chat.route');
 
 // Initialize App and Web Server
 const app = express();
@@ -70,10 +71,12 @@ app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/profile', profileRouter);
 app.use('/friends', friendsRouter);
+app.use('/chat', chatRouter);
 
 // Socket Controllers
 require('./sockets/online.socket')(io);
 require('./sockets/friends.socket')(io);
+require('./sockets/chat.socket')(io);
 
 // Run Server
 server.listen(
