@@ -39,29 +39,37 @@ exports.getFriendsByUserId = (userId) => {
 }
 
 exports.createFriendRequest = (senderId, receiverId) => {
-    return connection(async () => {
-        await User.updateOne({ _id: senderId }, { $push: { sentRequests: receiverId } });
-        return await User.updateOne({ _id: receiverId }, { $push: { receivedRequests: senderId } });
-    })
+    return connection(() => 
+        Promise.all([
+            User.updateOne({ _id: senderId }, { $push: { sentRequests: receiverId } }),
+            User.updateOne({ _id: receiverId }, { $push: { receivedRequests: senderId } })
+        ])
+    )
 }
 
 exports.deleteFriendRequest = (senderId, receiverId) => {
-    return connection(async () => {
-        await User.updateOne({ _id: senderId }, { $pull: { sentRequests: receiverId } });
-        return await User.updateOne({ _id: receiverId }, { $pull: { receivedRequests: senderId } })
-    })
+    return connection(() =>
+        Promise.all([
+            User.updateOne({ _id: senderId }, { $pull: { sentRequests: receiverId } }),
+            User.updateOne({ _id: receiverId }, { $pull: { receivedRequests: senderId } })
+        ])
+    )
 }
 
 exports.createFriendship = (user1, user2, chatId) => {
-    return connection(async () => {
-        await User.updateOne({ _id: user1 }, { $push: { friends: { chat: chatId, user: user2 } } });
-        return await User.updateOne({ _id: user2 }, { $push: { friends: { chat: chatId, user: user1 } } });
-    })
+    return connection(() => 
+        Promise.all([
+            User.updateOne({ _id: user1 }, { $push: { friends: { chat: chatId, user: user2 } } }),
+            User.updateOne({ _id: user2 }, { $push: { friends: { chat: chatId, user: user1 } } })
+        ])
+    )
 }
 
 exports.deleteFriendship = (user1, user2) => {
-    return connection(async () => {
-        await User.updateOne({ _id: user1 }, { $pull: { friends: { user: user2 } } });
-        return await User.updateOne({ _id: user2 }, { $pull: { friends: { user: user1 } } });
-    })
+    return connection(() =>
+        Promise.all([
+            User.updateOne({ _id: user1 }, { $pull: { friends: { user: user2 } } }),
+            User.updateOne({ _id: user2 }, { $pull: { friends: { user: user1 } } })
+        ])
+    )
 }
