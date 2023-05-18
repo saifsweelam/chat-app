@@ -34,7 +34,7 @@ module.exports = new function() {
     }
 
     this.session = {
-        secret: crypto.randomBytes(20).toString('hex'),
+        secret: process.env.CHATAPP_ENV === 'production' ? crypto.randomBytes(20).toString('hex') : 'ThisIsASecret',
         saveUninitialized: false,
         resave: false,
         store: new SessionStore({
