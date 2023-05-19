@@ -1,8 +1,10 @@
 const Chat = require('../schemas/chats.schema');
 const connection = require('./connection');
 
-exports.createChat = (users) => {
+exports.createChat = (users, name, avatar) => {
     let chat = new Chat({ users })
+    name && (chat.name = name);
+    avatar && (chat.avatar = avatar);
     return connection(() => chat.save());
 }
 
@@ -14,3 +16,9 @@ exports.getChatDetailsById = (chatId) => {
     }));
 }
 
+exports.getGroupChatsByUserId = (userId) => {
+    return connection(() => Chat.find({
+        users: userId,
+        $where: "this.users.length > 2"
+    }))
+}

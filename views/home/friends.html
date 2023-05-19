@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}Friends{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% include "parts/alerts.html" %}
+
+    <div class="row text-center my-3">
+
+        {% for friend in friends %}
+        <div class="col-xl-3 col-sm-6 mb-5">
+            <div class="bg-white rounded shadow-sm py-5 px-4">
+                <img src="{{ friend.user.avatar }}" alt="{{ friend.user.username }}'s avatar" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+                <h5 class="mb-0"><a href="/profile/{{ friend.user._id }}">{{ friend.user.username }}</a></h5>
+                <a href="/chat/{{ friend.chat }}" class="btn btn-success my-2">Chat</a>
+            </div>
+        </div>
+        {% else %}
+        <h2>No online friends</h2>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

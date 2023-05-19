@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Chat with {{ chat.user.username }}{% endblock %}
+{% block title %}Chat with {{ chat.name or chat.user.username }}{% endblock %}
 
 {% block content %}
 <section style="background-color: #eee;">
@@ -13,10 +13,12 @@
                 <h5 class="font-weight-bold mb-3 text-center text-lg-start">Chat</h5>
 
                 <div class="card">
-                    <img src="{{ chat.user.avatar }}" class="card-img-top" alt="{{ chat.user.username }}'s avatar">
+                    <img src="{{ chat.avatar if chat.name else chat.user.avatar }}" class="card-img-top" alt="{{ chat.name or chat.user.username }}'s avatar">
                     <div class="card-body">
-                        <h5 class="card-title">{{ chat.user.username }}</h5>
+                        <h5 class="card-title">{{ chat.name or chat.user.username }}</h5>
+                        {% if not chat.name %}
                         <a href="/profile/{{ chat.user._id }}" class="btn btn-primary">View Profile</a>
+                        {% endif %}
                     </div>
                 </div>
 

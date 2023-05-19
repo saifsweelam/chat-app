@@ -14,6 +14,7 @@ const authRouter = require('./routes/auth.route');
 const profileRouter = require('./routes/profile.route');
 const friendsRouter = require('./routes/friends.route');
 const chatRouter = require('./routes/chat.route');
+const groupsRouter = require('./routes/groups.route');
 
 // Initialize App and Web Server
 const app = express();
@@ -72,6 +73,7 @@ app.use('/', authRouter);
 app.use('/profile', profileRouter);
 app.use('/friends', friendsRouter);
 app.use('/chat', chatRouter);
+app.use('/groups', groupsRouter);
 
 // Socket Controllers
 require('./sockets/online.socket')(io);

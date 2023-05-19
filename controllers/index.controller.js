@@ -12,3 +12,14 @@ exports.getHome = async (req, res, next) => {
         res.redirect('back');
     }
 }
+
+/** @type {import("express").RequestHandler} */
+exports.getFriends = async (req, res, next) => {
+    try {
+        let friends = await usersModel.getFriendsByUserId(req.session.user._id);
+        res.render('home/friends', { friends });
+    } catch (err) {
+        req.flash('error', err.toString());
+        res.redirect('back');
+    }
+}

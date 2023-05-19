@@ -19,5 +19,6 @@ router.use((req, res, next) => {
 })
 
 router.get('/', authorization.requiresAuth, indexCtrl.getHome);
+router.get('/friends', authorization.requiresAuth, indexCtrl.getFriends);
 
 module.exports = router;

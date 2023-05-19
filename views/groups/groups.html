@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}Groups{% endblock %}
+
+{% block content %}
+<div class="container">
+    {% include "parts/alerts.html" %}
+
+    <a href="/groups/new" class="btn btn-primary">New Group</a>
+    <div class="row text-center my-3">
+
+        {% for group in groups %}
+        <div class="col-xl-3 col-sm-6 mb-5">
+            <div class="bg-white rounded shadow-sm py-5 px-4">
+                <img src="{{ group.avatar }}" alt="{{ group.name }}'s avatar" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+                <h5 class="mb-0">{{ group.name }}</h5>
+                <a href="/chat/{{ group._id }}" class="btn btn-success my-2">Chat</a>
+            </div>
+        </div>
+        {% else %}
+        <h2>No joined groups</h2>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
