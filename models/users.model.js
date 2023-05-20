@@ -73,3 +73,20 @@ exports.deleteFriendship = (user1, user2) => {
         ])
     )
 }
+
+exports.areFriends = (user1, user2) => {
+    return connection(() => User.findOne({ _id: user1, "friends.user": user2 }));
+}
+
+exports.requestedFriendship = (user1, user2, bidirectional=true) => {
+    return connection(async () => {
+        let user = await User.findById(user1);
+        user.sentRequests = user.sentRequests.map((userId) => String(userId));
+        user.receivedRequests = user.receivedRequests.map((userId) => String(userId));
+        if (bidirectional) {
+            return user.receivedRequests.includes(String(user2)) || user.sentRequests.includes(String(user2));
+        } else {
+            return user.sentRequests.includes(String(user2));
+        }
+    })
+}

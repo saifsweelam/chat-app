@@ -58,7 +58,8 @@
                     </li>
                     {% endif %}
                     {% endfor %}
-                    <li id="messageFieldContainer" class="bg-white mb-3">
+                    <li id="messageFieldContainer" class="mb-3">
+                        {% include "parts/alerts.html" %}
                         <div class="form-outline">
                             <input type="hidden" id="senderId" value="{{ session.user._id }}">
                             <textarea title="Message" placeholder="Message" class="form-control" id="messageField" rows="4"></textarea>
