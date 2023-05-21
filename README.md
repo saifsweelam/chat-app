@@ -16,3 +16,7 @@ NodeJS Chatting Web Application
 * Set `CHATAPP_DB_URI` enviromental variable to a `MongoDB` database uri _(Default: `mongodb://127.0.0.1:27017/chat-app`)_
 * Run ```npm install``` then ```npm start```
 * Visit [localhost:3000](http://localhost:3000)
+
+_To use the application over https protocol, you should provide an SSL certificate in the following pathes:_
+* `ssl/cert.pem`: Certificate file
+* `ssl/key.pem`: Private Key file

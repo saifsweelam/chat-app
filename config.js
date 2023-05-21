@@ -1,10 +1,18 @@
 const path = require('path');
+const fs = require('fs');
 const crypto = require('crypto');
 const session = require('express-session');
 const SessionStore = require('connect-mongodb-session')(session);
 const { diskStorage } = require('multer');
 
 module.exports = new function() {
+    if (fs.existsSync(path.join(__dirname, 'ssl', 'key.pem'))) {
+        this.ssl = {
+            key: fs.readFileSync(path.join(__dirname, 'ssl', 'key.pem')),
+            cert: fs.readFileSync(path.join(__dirname, 'ssl', 'cert.pem'))
+        }
+    }
+
     this.deploy = {
         port: 3000
     }

@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const express = require('express');
 const nunjucks = require('nunjucks');
 const session = require('express-session');
@@ -18,11 +19,8 @@ const groupsRouter = require('./routes/groups.route');
 
 // Initialize App and Web Server
 const app = express();
-const server = http.createServer(app);
+const server = config.ssl ? https.createServer(config.ssl, app) : http.createServer(app);
 const io = new Server(server);
-
-// Track Online Users
-const onlineUsers = {};
 
 // Template Engine
 nunjucks.configure(config.views.dir, {
