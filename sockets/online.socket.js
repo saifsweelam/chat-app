@@ -1,7 +1,3 @@
-const { request } = require('express');
-const usersModel = require('../models/users.model');
-
-
 /**
  * @param {import("socket.io").Server} io
  */
